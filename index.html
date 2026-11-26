@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0d0e26">
+<title>白日梦想家</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="orbs" aria-hidden="true"><i></i><i></i><i></i></div>
+
+<main class="app">
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo" aria-hidden="true">✦</span>
+      <h1>白日梦想家</h1>
+      <span class="tagline">银行家 · 梦想家</span>
+    </div>
+    <div class="top-right">
+      <span class="badge" id="badge">准备中</span>
+      <button class="link" id="btnQuit" hidden>退出本局</button>
+    </div>
+  </header>
+
+  <!-- ============ 准备 ============ -->
+  <section class="screen active" id="setup">
+    <div class="panel setup-main">
+      <div class="panel-head">
+        <h2>这一局的牌堆</h2>
+        <span class="tiny" id="deckCount"></span>
+      </div>
+
+      <div class="prize-rows" id="prizeRows"></div>
+      <p class="empty" id="deckEmpty">还没有牌。加一张，或者用下面的随机生成。</p>
+      <button class="btn ghost sm add" id="btnAddPrize">＋ 加一张</button>
+
+      <div class="gen">
+        <div class="gen-title">随机金额</div>
+        <div class="gen-fields">
+          <label>张数<input id="genCount" type="number" min="1" value="6"></label>
+          <label>最小值<input id="genMin" type="number" value="10"></label>
+          <label>最大值<input id="genMax" type="number" value="500"></label>
+        </div>
+        <div class="gen-actions">
+          <button class="btn sm" id="btnGenDeck">生成整副牌</button>
+          <button class="btn sm" id="btnGenAmounts">只随机数值</button>
+        </div>
+      </div>
+    </div>
+
+    <aside class="setup-side">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>预设牌堆</h2>
+          <span class="tiny">存几副常用的</span>
+        </div>
+        <div class="preset-row">
+          <select id="presetSelect" aria-label="预设牌堆"></select>
+          <div class="preset-actions">
+            <button class="btn sm" id="btnLoadPreset">载入</button>
+            <button class="btn sm" id="btnSavePreset">存为预设</button>
+            <button class="btn sm danger" id="btnDeletePreset">删除</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><h2>开局参数</h2></div>
+        <div class="params">
+          <label class="param">入场费<input id="entryFee" type="number" min="0" step="any" value="20"></label>
+          <label class="param">底牌数<input id="holeCount" type="number" min="1" value="1"></label>
+        </div>
+        <p class="hint" id="holeHint"></p>
+      </div>
+
+      <button class="btn primary big" id="btnStart">开始游戏</button>
+      <p class="footnote">程序只负责流程与展示，金额由你们自己结算。</p>
+    </aside>
+  </section>
+
+  <!-- ============ 对局 ============ -->
+  <section class="screen" id="play">
+    <div class="board panel">
+      <div class="panel-head">
+        <h2>奖品清单</h2>
+        <span class="tiny">翻开即划掉</span>
+      </div>
+      <ul class="public-list" id="publicList"></ul>
+    </div>
+
+    <div class="play-right">
+      <div class="decks">
+        <div class="deck-block">
+          <div class="deck-label">底牌 <b id="holeNum">1</b> 张</div>
+          <div class="card-row" id="holeRow"></div>
+        </div>
+        <div class="deck-block">
+          <div class="deck-label">牌堆 <b id="poolNum">0</b> 张</div>
+          <div class="card-row" id="poolRow"></div>
+        </div>
+      </div>
+      <div class="console" id="console"></div>
+    </div>
+  </section>
+
+  <!-- ============ 结果 ============ -->
+  <section class="screen" id="over">
+    <div class="over-left">
+      <div class="result panel">
+        <p class="eyebrow">本局结束</p>
+        <h2 id="overTitle">成交</h2>
+        <p class="sub" id="overSub"></p>
+
+        <div class="hole-cards" id="overHole"></div>
+
+        <dl class="facts">
+          <div><dt>入场费（已给银行家）</dt><dd id="overFee">¥0</dd></div>
+          <div><dt>成交价</dt><dd id="overPrice">未成交</dd></div>
+        </dl>
+        <p class="hint">程序不做结算，按你们的规矩自己算。</p>
+      </div>
+
+      <div class="row">
+        <button class="btn primary" id="btnAgain">再来一局</button>
+        <button class="btn" id="btnBackSetup">改设置</button>
+      </div>
+    </div>
+
+    <div class="panel over-right">
+      <div class="panel-head"><h2>本局牌面</h2></div>
+      <ul class="public-list over-list" id="overList"></ul>
+    </div>
+  </section>
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
